@@ -41,7 +41,12 @@ namespace TP2
         {
             trabajadoresDataGrid.ItemsSource = null;
             CRUDtrabajador crud = new CRUDtrabajador(myConnectionString);
-            trabajadoresDataGrid.ItemsSource = crud.GetAll();
+            List<Trabajador> trabajadors = crud.GetAll();
+            foreach (var item in trabajadors)
+            {
+                item.Sueldo = CalcularSueldo.Calcular(item);
+            }
+            trabajadoresDataGrid.ItemsSource = trabajadors;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

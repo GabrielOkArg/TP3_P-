@@ -154,7 +154,7 @@ namespace BE.DAL
                 Trabajador trabajador = FindById(entity.Id);
                 if (trabajador != null)
                 {
-                    DataTable dt  = ConexionBD.GetDataTable("SELECT * FROM Personas", dataAdapter);
+                    DataTable dt  = ConexionBD.GetDataTable("SELECT * FROM Personas WHERE Id ="+entity.Id, dataAdapter);
                     if (dt.Rows.Count > 0 )
                     {
                         DataRow dr = dt.Rows[0];
