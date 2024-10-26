@@ -109,6 +109,7 @@ namespace BE.DAL
                 trabajador.ValorHora = Convert.ToDecimal(item["ValorHora"]);
                 trabajador.Sueldo = Convert.ToDecimal(item["Sueldo"]);
                 trabajador.FechaIngreso = Convert.ToDateTime(item["FechaIngreso"]);
+                trabajador.FechaIngresoString = trabajador.FechaIngreso.ToShortDateString();
                 listado.Add(trabajador);
             };
             return listado;
@@ -172,5 +173,43 @@ namespace BE.DAL
                 throw;
             }
         }
+
+        public void UpdateTrabajador(Trabajador entity)
+        {
+            try
+            {
+                Trabajador trabajador = FindById(entity.Id);
+                if (trabajador != null)
+                {
+                    DataTable dt = ConexionBD.GetDataTable("SELECT * FROM Personas WHERE Id =" + entity.Id, dataAdapter);
+                    if (dt.Rows.Count > 0)
+                    {
+                        DataRow dr = dt.Rows[0];
+                        dr["Nombre"] = entity.Nombre;
+                        dr["Apellido"] = entity.Apellido;
+                        dr["CategoriaId"] = entity.Categoria.Id;
+                        dr["RangoId"] = entity.Rango.Id;
+                        dr["AreaTrabajo"] = entity.AreaTrabajo;
+                        dr["CantidadHoras"] = entity.CantidadHoras;
+                        dr["ValorHora"] = entity.ValorHora;
+                        dr["Sueldo"] = entity.Sueldo;
+                        dr["FechaIngreso"] = entity.FechaIngreso;
+                        dr["Localidad"] = entity.Localidad;
+                        dr["Provincia"] = entity.Provincia;
+                        dr["NroCelular"] = entity.NroCelular;
+                        dr["Domicilio"] = entity.Domicilio;
+                    }
+                    ConexionBD.UpdateDataBase(dt, "SELECT * FROM Personas", dataAdapter);
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
     }
+
 }

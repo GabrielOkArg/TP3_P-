@@ -104,14 +104,32 @@
                 <DataGridTextColumn Header="Horas" Binding="{Binding CantidadHoras}" />
                 <DataGridTextColumn Header="Valor Hora" Binding="{Binding ValorHora}" />
                 <DataGridTextColumn Header="Sueldo" Binding="{Binding Sueldo}" />
-                <DataGridTextColumn Header="Fecha Ingreso" Binding="{Binding FechaIngreso}" />
+                <DataGridTextColumn Header="Fecha Ingreso" Binding="{Binding FechaIngresoString}"/>
 
-                <!-- Columna para el botón de borrar -->
-                <DataGridTemplateColumn Header="Acción">
+                <!-- Columna para el botón de editar -->
+                <DataGridTemplateColumn Header="Editar">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <!-- Botón con texto "X" para eliminar -->
-                            <Button Content="X" 
+                            <!-- Botón con texto "Editar" para editar -->
+                            <Button Content="Editar" 
+                            Click="EditarTrabajador_Click" 
+                            Cursor="Hand" 
+                            Background="Transparent" 
+                            Foreground="Green" 
+                            FontWeight="Bold" 
+                            FontSize="16"
+                            BorderThickness="0" 
+                            HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Columna para el botón de borrar -->
+                <DataGridTemplateColumn Header="Eliminar">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <!-- Botón con texto "Eliminar" para eliminar -->
+                            <Button Content="Eliminar" 
                             Click="EliminarTrabajador_Click" 
                             Cursor="Hand" 
                             Background="Transparent" 
