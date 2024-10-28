@@ -20,26 +20,43 @@ namespace TP2
     /// <summary>
     /// Lógica de interacción para AltaTrabajador.xaml
     /// </summary>
-    public partial class AltaTrabajador : Window
+    public partial class EditarTrabajador : Window
     {
-
         private string myConnectionString;
         private List<Rango> rangos;
         private List<Categoria> categorias;
-        public AltaTrabajador()
+        private Trabajador trabajador; // Trabajador original a editar
+        public EditarTrabajador(Trabajador trabajador)
         {
+            InitializeComponent();
             myConnectionString = ConfigurationManager.ConnectionStrings["TP3_P2_conection"].ConnectionString;
-           CrudUtils crudUtils = new CrudUtils(myConnectionString);
+            CrudUtils crudUtils = new CrudUtils(myConnectionString);
+
             rangos = crudUtils.GetRangos();
             categorias = crudUtils.GetCategorias();
-           
-            InitializeComponent();
+
+            // Asigna el trabajador pasado al formulario a la variable de clase
+            this.trabajador = trabajador;
+
+            // Configuración de comboboxes
             cmbCategoria.ItemsSource = categorias;
-            cmbCategoria.DisplayMemberPath = "Nombre";  // Mostrar la propiedad 'Nombre'
+            cmbCategoria.DisplayMemberPath = "Nombre";
             cmbCategoria.SelectedValuePath = "Id";
             cmbRango.ItemsSource = rangos;
-            cmbRango.DisplayMemberPath = "Nombre";  // Mostrar la propiedad 'Nombre'
+            cmbRango.DisplayMemberPath = "Nombre";
             cmbRango.SelectedValuePath = "Id";
+
+            // Llenado de campos del formulario con los datos del trabajador
+            txtApellido.Text = trabajador.Apellido;
+            txtNombre.Text = trabajador.Nombre;
+            txtDomicilio.Text = trabajador.Domicilio;
+            txtLocalidad.Text = trabajador.Localidad;
+            cmbProvincia.Text = trabajador.Provincia;
+            txtNroCelular.Text = trabajador.NroCelular.ToString();
+            cmbCategoria.SelectedValue = trabajador.Categoria?.Id;
+            cmbRango.SelectedValue = trabajador.Rango?.Id;
+            txtAreaTrabajo.Text = trabajador.AreaTrabajo;
+            dpFechaIngreso.Text = trabajador.FechaIngreso.ToShortDateString();
         }
 
         private void CallMainWindows()
@@ -51,13 +68,14 @@ namespace TP2
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void OnClickGuardarTrabajador(object sender, RoutedEventArgs e)
         {
             try
             {
                 CRUDtrabajador crud = new CRUDtrabajador(myConnectionString);
-                Trabajador trabajador = new Trabajador();
-                txtApellido.Text = trabajador.Apellido;
+
+                // Asigna los valores modificados al objeto trabajador original
+                trabajador.Apellido = txtApellido.Text;
                 trabajador.Nombre = txtNombre.Text;
                 trabajador.Domicilio = txtDomicilio.Text;
                 trabajador.Localidad = txtLocalidad.Text;
@@ -67,15 +85,16 @@ namespace TP2
                 trabajador.Rango = new Rango { Id = (int)cmbRango.SelectedValue };
                 trabajador.AreaTrabajo = txtAreaTrabajo.Text;
                 trabajador.FechaIngreso = Convert.ToDateTime(dpFechaIngreso.Text);
-                crud.Insert(trabajador);
-                MessageBox.Show("Trabajador Agregado con exito");
-                CallMainWindows();
+                Console.WriteLine(trabajador.FechaIngreso.ToShortDateString());
+                // Llama a Update con el trabajador actualizado
+                crud.UpdateTrabajador(trabajador);
 
+                MessageBox.Show("Los cambios se realizaron con éxito");
+                CallMainWindows();
             }
             catch (Exception ex)
             {
-
-                MessageBox.Show("Ocurrio un error:" + ex.Message);
+                MessageBox.Show("Ocurrió un error: " + ex.Message);
             }
             finally
             {

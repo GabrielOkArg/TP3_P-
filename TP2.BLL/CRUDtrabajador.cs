@@ -53,5 +53,10 @@ namespace TP2.BLL
             MapperTrabajador.Update(entity);
          
         }
+
+        public void UpdateTrabajador(Trabajador trabajador)
+        {
+            MapperTrabajador.UpdateTrabajador(trabajador);
+        }
     }
 }

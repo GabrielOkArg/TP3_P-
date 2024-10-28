@@ -78,5 +78,23 @@ namespace TP2
                 MessageBox.Show("Trabajador eliminado correctamente.");
             }
         }
+
+        private void EditarTrabajador_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var trabajador = button.DataContext as Trabajador;
+
+            EditarTrabajador editarTrabajador = new EditarTrabajador(trabajador);
+            editarTrabajador.ShowDialog();
+           
+           /** if (result)
+            {
+                CRUDtrabajador crud = new CRUDtrabajador(myConnectionString);
+                crud.Delete(trabajador);
+                LlenarGrilla();
+                MessageBox.Show("Trabajador eliminado correctamente.");
+            } */
         }
+    }
+
 }
