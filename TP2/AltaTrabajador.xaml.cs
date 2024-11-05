@@ -57,7 +57,7 @@ namespace TP2
             {
                 CRUDtrabajador crud = new CRUDtrabajador(myConnectionString);
                 Trabajador trabajador = new Trabajador();
-                txtApellido.Text = trabajador.Apellido;
+                trabajador.Apellido = txtApellido.Text;
                 trabajador.Nombre = txtNombre.Text;
                 trabajador.Domicilio = txtDomicilio.Text;
                 trabajador.Localidad = txtLocalidad.Text;
